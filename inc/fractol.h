@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agaspard <agaspard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agaspard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/18 11:44:22 by agaspard          #+#    #+#             */
-/*   Updated: 2017/08/08 14:55:44 by agaspard         ###   ########.fr       */
+/*   Created: 2017/11/27 16:00:10 by agaspard          #+#    #+#             */
+/*   Updated: 2017/12/03 15:02:10 by agaspard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,84 +24,69 @@
 # include "../libft/includes/get_next_line.h"
 
 # define KEY_ESC 53
+# define KEY_SCROLL_UP 5
+# define KEY_SCROLL_DOWN 4
 
-typedef	struct	s_siz
-{
-	int			xmin;
-	int			xmax;
-	int			ymin;
-	int			ymax;
-}				t_siz;
+typedef struct		s_env {
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*pxl_img;
+	int				bpp;
+	int				zline;
+	int				endian;
+	int				win_high;
+	int				win_width;
+	int				imgx;
+	int				imgy;
+	int				x;
+	int				y;
+	int				color;
+	int				c1;
+	int				c2;
+	int				c3;
+	int				number_set;
+	int				moove;
+	double			x1;
+	double			x2;
+	double			y1;
+	double			y2;
+	double			cr;
+	double			ci;
+	double			zr;
+	double			zi;
+	double			i;
+	long double		zoom;
+	long double		itmax;
+}					t_env;
 
-typedef struct	s_env
-{
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*data;
-	int			bpp;
-	int			szl;
-	int			endian;
-	int			fra;
-	double		xi;
-	double		yi;
-	double		xf;
-	double		yf;
-	int			imax;
-	int			x;
-	int			y;
-	int			tmp;
-	int			c_r;
-	int			c_i;
-	int			z_r;
-	int			z_i;
-	int			i;
-	int			r;
-	int			g;
-	int			b;
-
-
-
-	int			xmax;
-	int			ymax;
-	int			zmax;
-	int			width;
-	int			height;
-	int			x_mid;
-	int			y_mid;
-	int			mv_lr;
-	int			mv_ud;
-	double		z_size;
-	float		dx;
-	float		dy;
-	float		xinc;
-	float		yinc;
-	float		cumul;
-	t_siz		*w_size;
-}				t_env;
-
-int				error_params(char *str);
-int				selec_fra(char *str);
-void			init_fra(int fra, t_env *e);
-void			init_mlx(int fra, t_env *e);
-void			create_img(t_env *e);
-void			mlx_pixel_put_to_img(t_env *e, char r, char g, char b);
-void			mandelbrot(t_env *e);
-
-void			init_julia(t_env *e);
-void			init_mandelbrot(t_env *e);
-
-int				error_fd(char **av, t_env *e, int error);
-void			height_color(t_env *e);
-int				gere_key(int keycode);
-int				gere_key2(int keycode, t_env *e);
-int				loop_event(t_env *e);
-void			print_line(t_env *e);
-void			iso(t_env *e, int count);
-void			get_coor(t_env *e);
-int				get_max(char *av, t_env *e);
-void			resize(t_siz *s, t_env *e);
-void			init(t_siz *s, t_env *e);
-t_siz			*win_size(t_env *e);
+void				redraw(t_env *e);
+void				error_params(void);
+int					check_params(int ac, char **av);
+void				put_pixel(t_env *e);
+void				init_window(t_env *e, char **av);
+void				select_fractal(char **av, t_env *e);
+void				zoom_in(t_env *e, int x, int y);
+void				zoom_out(t_env *e, int x, int y);
+int					gere_key(int keycode);
+int					mouse_hook(int keycode, int x, int y, t_env *e);
+int					mouse_moove(int x, int y, t_env *e);
+t_env				*ft_init_julia(t_env *e);
+t_env				*ft_init_draw_julia(t_env *e, int x, int y);
+void				draw_julia(t_env *e);
+void				ft_julia(t_env *e);
+t_env				*ft_init_draw_mandelbrot(t_env *e, int x, int y);
+t_env				*ft_init_mandelbrot(t_env *e);
+void				draw_mandelbrot(t_env *e);
+void				ft_mandelbrot(t_env *e);
+t_env				*ft_init_burnship(t_env *e);
+t_env				*ft_init_draw_burnship(t_env *e, int x, int y);
+void				draw_burnship(t_env *e);
+void				ft_burnship(t_env *e);
+int					pixel_color(t_env *e);
+int					set_color(t_env *e);
+int					color_set_julia(t_env *e);
+int					color_set_mandelbrot(t_env *e);
+int					color_set_burnship(t_env *e);
 
 #endif

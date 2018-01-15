@@ -15,7 +15,7 @@ NAME = fractol
 
 # COMPILATION
 CC = clang
-CCFLAGS = -Wall -Werror -Wextra
+CCFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 LIBFLAGS = -framework OpenGL -framework AppKit
 
 # DIRECTORIES
@@ -35,10 +35,13 @@ LDM = $(addprefix -L, $(D_MLX))
 # SOURCES
 F_SRC =\
 	   main.c \
-	   make_img.c \
-	   init_fractals.c \
-	   print_ftl.c \
+	   init.c \
 	   keys.c \
+	   hooks.c \
+	   julia.c \
+	   mandelbrot.c \
+	   burnship.c \
+	   color.c \
 
 # ***************************************************************************** #
 
